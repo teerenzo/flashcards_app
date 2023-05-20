@@ -1,0 +1,30 @@
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Card {
+  id          Int      @id @default(autoincrement())   
+  createdAt   DateTime @default(now())  
+  description String
+  title         String
+  status String @default("pending")
+  userId Int?
+  postedBy User? @relation(fields: [userId],references: [id])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  cards     Card[]
+}
+
+
